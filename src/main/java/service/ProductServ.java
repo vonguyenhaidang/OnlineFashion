@@ -16,4 +16,16 @@ public class ProductServ {
 	public List<Products> getProducts(){
 		return pd.getProducts();
 	}
+	
+	public List<Products> getRecommendProd(final String catid){
+		return pd.getReccomendedProd(catid);
+	}
+	
+	public Products getProduct(final String prodid) {
+		return pd.getProduct(prodid);
+	}
+	
+	public String getCatID(final String prodid) {
+		return pd.getCatID(prodid);
+	}
 }

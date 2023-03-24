@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.models.Admin;
 import com.example.models.CustomerPayment;
@@ -74,5 +75,17 @@ public class controller {
 		models.addAttribute("Cats", ca);
 		
 		return "index";
+	}
+	
+	@GetMapping("/product/{id}")
+	public String prodDetail(@PathVariable String id,ModelMap models) {
+		String c=ps.getCatID(id);
+		Products p=ps.getProduct(id);
+		List<Products> lp=ps.getRecommendProd(c);
+		
+		models.addAttribute("Recommend",lp);
+		models.addAttribute("Product", p);
+		
+		return "product-details";
 	}
 }
