@@ -7,9 +7,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.mapper.OrderMap;
 import com.example.models.Order;
-
-import mapper.OrderMap;
 
 @Repository
 @Transactional

@@ -7,9 +7,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.mapper.CustomerMap;
 import com.example.models.Customer;
-
-import mapper.CustomerMap;
 
 @Repository
 @Transactional

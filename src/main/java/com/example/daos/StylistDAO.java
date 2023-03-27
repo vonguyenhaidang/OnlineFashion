@@ -8,9 +8,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.mapper.StylistMap;
 import com.example.models.Stylist;
-
-import mapper.StylistMap;
 
 @Repository
 @Transactional
@@ -21,5 +20,14 @@ public class StylistDAO {
 	public List<Stylist> getStylists(){
 		List<Stylist> c=jdbcTemplate.query("select * from tblStylist", new StylistMap());
 		return c;
+	}
+	
+	public void addStyl(final Stylist s) {
+		jdbcTemplate.update("insert into tblStylist values(?,?,?,?,?)",new Object[] {s.getStylistID(),s.getStylistName(),
+				s.getStylistEmail(),s.getStylistDesc(),s.getStylistPassword()});
+	}
+	
+	public void delStyl(final String stylID) {
+		jdbcTemplate.update("delete tblStylist where stylID=?",new Object[] {stylID});
 	}
 }

@@ -8,9 +8,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.mapper.AdminMap;
 import com.example.models.Admin;
-
-import mapper.AdminMap;
 
 @Repository
 @Transactional
