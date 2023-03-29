@@ -20,4 +20,8 @@ public class OrderDAO {
 		List<Order> o= jdbcTemplate.query("select * from tblOrder", new OrderMap());
 		return o;
 	}
+	
+	public void updOrd(Order o) {
+		jdbcTemplate.update("update tblOrder set status=? where orderID=?",new Object[] {o.getStatus(),o.getOrderID()});
+	}
 }

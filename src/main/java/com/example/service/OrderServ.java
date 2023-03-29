@@ -16,4 +16,8 @@ public class OrderServ {
 	public List<Order> getOrders(){
 		return od.getOrders();
 	}
+	
+	public void updOrd(Order o) {
+		od.updOrd(o);
+	}
 }
