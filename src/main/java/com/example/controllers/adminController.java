@@ -17,6 +17,7 @@ import com.example.models.Admin;
 import com.example.models.CustomerPayment;
 import com.example.models.Details;
 import com.example.models.Stylist;
+import com.example.models.StylistReg;
 import com.example.service.AdminServ;
 import com.example.service.CatServ;
 import com.example.service.CustomerPaymentServ;
@@ -24,6 +25,7 @@ import com.example.service.CustomerServ;
 import com.example.service.DetailsServ;
 import com.example.service.OrderServ;
 import com.example.service.ProductServ;
+import com.example.service.StylistRegServ;
 import com.example.service.StylistServ;
 import com.example.models.Cat;
 import com.example.models.Customer;
@@ -42,6 +44,7 @@ public class adminController {
 	private OrderServ os;
 	private ProductServ ps;
 	private StylistServ ss;
+	private StylistRegServ srs;
 	
 	//Password md5 encryption
 	public static String MD5(String s) throws Exception {
@@ -61,6 +64,7 @@ public class adminController {
 		List<Customer> cu=cs.getCustomers();
 		List<Order> o=os.getOrders();
 		List<Products> p=ps.getProducts();
+		List<StylistReg> sr=srs.getStylistRegs();
 		
 		models.addAttribute("Admins", a);
 		models.addAttribute("CustPays", cp);
@@ -70,6 +74,7 @@ public class adminController {
 		models.addAttribute("Customers", cu);
 		models.addAttribute("Orders", o);
 		models.addAttribute("Products", p);
+		models.addAttribute("StylistReg", sr);
 		
 		return "admin";
 	}
@@ -172,29 +177,42 @@ public class adminController {
 		return "redirect:/admin";
 	}
 	
-	//stylist
-	@PostMapping("/admin/stylist/add")
-	public String addStyl(@RequestParam(value="ID",required=true) String stylid,@RequestParam(value="name",required=true) String stylname,
-			@RequestParam(value="email",required=true) String email,@RequestParam(value="desc",required=true) String desc,
-			@RequestParam(value="password",required=true) String password,ModelMap models) throws Exception {
-		Stylist s=new Stylist();
+	//StylistReg
+	@GetMapping("/admin/stylistReg/accept/{$id}")
+	public String acceptStyl(@PathVariable String id, ModelMap models) {
+		StylistReg sr=srs.getStylistReg(id);
+		Stylist s=new Stylist(sr.getStylistRegID(),sr.getStylistRegName(),sr.getStylistRegEmail(),sr.getStylistRegDesc(),sr.getStylistRegPassword());
 		
-		String p=MD5(password);
-		
-		s.setStylistID(stylid);
-		s.setStylistName(stylname);
-		s.setStylistEmail(email);
-		s.setStylistDesc(desc);
-		s.setStylistPassword(p);
-		
+		srs.updStylistReg(sr.getStylistRegID(), "accepted");
 		ss.addStyl(s);
 		
+		List<StylistReg> lsr=srs.getStylistRegs();
 		List<Stylist> ls=ss.getStylists();
+		
 		models.addAttribute("stylist", ls);
+		models.addAttribute("stylistReg", lsr);
+		
+		return "redirect:/admin";
+	}
+
+	@GetMapping("/admin/stylistReg/reject/${id}")
+	public String rejectStyl(@PathVariable String id, ModelMap models) {
+		StylistReg sr=srs.getStylistReg(id);
+		Stylist s=new Stylist(sr.getStylistRegID(),sr.getStylistRegName(),sr.getStylistRegEmail(),sr.getStylistRegDesc(),sr.getStylistRegPassword());
+		
+		srs.updStylistReg(sr.getStylistRegID(), "denied");
+		ss.addStyl(s);
+		
+		List<StylistReg> lsr=srs.getStylistRegs();
+		List<Stylist> ls=ss.getStylists();
+		
+		models.addAttribute("stylist", ls);
+		models.addAttribute("stylistReg", lsr);
 		
 		return "redirect:/admin";
 	}
 	
+	//Stylist
 	@GetMapping("/admin/delete/stylist/{id}")
 	public String delStyl(@PathVariable String id,ModelMap models) {
 		ss.delStyl(id);
@@ -206,7 +224,7 @@ public class adminController {
 	}
 	
 	//order
-	@PostMapping("/admin/order/update/")
+	@PostMapping("/admin/order/update")
 	public String updOrd(@RequestParam(value="ID",required=true) String ordID,@RequestParam(value="status",required=true) String status,
 			ModelMap models) {
 		Order o=new Order();
