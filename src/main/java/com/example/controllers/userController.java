@@ -22,12 +22,19 @@ import com.example.service.StylistServ;
 public class userController {
 	@Autowired
 	private AdminServ as;
+	@Autowired
 	private CatServ cas;
+	@Autowired
 	private CustomerPaymentServ cps;
+	@Autowired
 	private CustomerServ cs;
+	@Autowired
 	private DetailsServ ds;
+	@Autowired
 	private OrderServ os;
+	@Autowired
 	private ProductServ ps;
+	@Autowired
 	private StylistServ ss;
 	
 	

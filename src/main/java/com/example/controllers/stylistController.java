@@ -25,8 +25,11 @@ import com.example.service.StylistServ;
 public class stylistController {
 	@Autowired
 	private CatServ cas;
+	@Autowired
 	private CustomerServ cs;
+	@Autowired
 	private ProductServ ps;
+	@Autowired
 	private StylistServ ss;
 	
 	@GetMapping("stylist")
