@@ -237,4 +237,44 @@ public class adminController {
 		return "redirect:/admin";
 	}
 	
+	//admin
+	@PostMapping("/admin/admin/add")
+	public String addAdmin(@RequestParam(value="ID",required=true) String adminID, @RequestParam(value="name",required=true) String adminName,
+			@RequestParam(value="email",required=true) String adminEmail, @RequestParam(value="password",required=true) String adminPassword,
+			ModelMap models) throws Exception {
+		String password=MD5(adminPassword);
+		
+		Admin a=new Admin(adminID,adminName,adminEmail,adminPassword);
+		
+		as.addAdmin(a);
+		
+		List<Admin> la=as.getAdmins();
+		models.addAttribute("admin", la);
+		
+		return "redirect:/admin";
+	}
+	
+	@GetMapping("/admin/delete/admin/{id}")
+	public String delAdmin(@PathVariable String id, ModelMap models) {
+		as.delAdmin(id);
+		
+		List<Admin> la=as.getAdmins();
+		models.addAttribute("admin", la);
+		
+		return "redirect:/admin";
+	}
+	
+	@PostMapping("/admin/admin/update")
+	public String updAdmin(@RequestParam(value="ID",required=true) String adminID, @RequestParam(value="name",required=true) String adminName,
+			@RequestParam(value="email",required=true) String adminEmail, @RequestParam(value="password",required=true) String adminPassword,
+			ModelMap models) throws Exception {
+		Admin a=new Admin(adminID,adminName,adminEmail,adminPassword);
+		
+		as.updAdmin(a);
+		
+		List<Admin> la=as.getAdmins();
+		models.addAttribute("admin", la);
+		
+		return "redirect:/admin";
+	}
 }

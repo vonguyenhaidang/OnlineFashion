@@ -16,4 +16,13 @@ public class AdminServ {
 	public List<Admin> getAdmins(){
 		return ad.getAdmins();
 	}
+	public void addAdmin(Admin a) {
+		ad.addAdmin(a);
+	}
+	public void delAdmin(String id) {
+		ad.delAdmin(id);
+	}
+	public void updAdmin(Admin a) {
+		ad.updAdmin(a);
+	}
 }
